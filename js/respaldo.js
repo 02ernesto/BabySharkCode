@@ -1,6 +1,6 @@
 canvas = document.getElementById("canvas");
 ctx = canvas.getContext('2d');
-
+//ctx.fillRect(0,0,50,50); //pequeña prueba de que todo funciona
 
 let frames = 0; //Variable para moviemto
 //let gravity = 0.090; //Gravedad del pajarito
@@ -11,7 +11,7 @@ let audio = new Audio();  // variable del audio
 audio.loop = true;   // Variable de la reproducción continua del audio
 audio.src =
  "https://ia600807.us.archive.org/22/items/DjBabySharkDanceRemix/BabyShark-DjNelzkie.mp3"; 
-
+//"https://ia600702.us.archive.org/25/items/FailRecorderMissionImpossibleThemesong/Fail%20Recorder_%20Mission%20Impossible%20Themesong.mp3"; //direccion del audio
 
 class Flappy {  // Clase Flappy , se crea para poner las corrdenadas e imagen del pajarito
   constructor(width, height) { //Constructor se declara adicional a width y height
@@ -22,7 +22,11 @@ class Flappy {  // Clase Flappy , se crea para poner las corrdenadas e imagen de
     this.width = width; // ancho del canvas
     this.height = height; // alto del canvas
     
-    
+    // this.image1 = new Image(); // imagen 1 
+    // this.image2 = new Image(); // imagen 2
+    // this.image1.src = imgs.first; // selecciona imagen 1 de la matrix imgs
+    // this.image2.src = imgs.second; // selecciona imagen 2 de la matrix imgs
+    // this.image = this.image1; // imagen igual a imagen1
    
     this.image1 = new Image(); //nueva imagen
     this.image2 = new Image(); 
@@ -51,7 +55,9 @@ class Flappy {  // Clase Flappy , se crea para poner las corrdenadas e imagen de
       //Velocidad en que cambia la imagenes de mario entre mas grande el numero mas tarda
         this.image = this.image === this.image1 ? this.image2 : this.image1; // condicion tersaria conjunta las dos imagenes en el mismo lugar
     }
-    
+    // if (this.x > 900) { // eje de las x es mayor a 900, 
+    //     this.x = 900 // quedate ahi mismo
+    //  }
     this.x =170
     
     
@@ -113,7 +119,7 @@ class Pipe { //class tubos enemigos
   } // se cierra draw de los enemigos 
 } // se cierra clase de los enemigos
 
-const flappy = new Flappy(50, 50); // tamaño de pajarito 
+const flappy = new Flappy(40, 40); // tamaño de pajarito 
 const background = new Background(); // nuevo fondo
 
 function generatePipes() { // Genera enemigos 
