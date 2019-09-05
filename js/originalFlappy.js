@@ -92,28 +92,30 @@ class Pipe {
   }
 }
 
+   function generatePipes() {
+     if (!(frames % 200 === 0)) return;
+     const height = Math.floor(Math.random() * canvas.height * 0.5 + 30);
+     const pipe1 = new Pipe(height, "top", 0);
+     const pipe2 = new Pipe(canvas.height - height - 140, null, height + 140);
+     pipes.push(pipe1);
+     pipes.push(pipe2);
+   }
+  
+   function drawPipe() {
+     pipes.forEach(pipe => {
+       if (pipe.x + pipe.width < 0) {
+         score += 2;
+         pipes.splice(0, 2);
+       }
+       pipe.draw();
+       if (flappy.collision(pipe)) gameOver();
+     });
+   }
+
 const flappy = new Flappy(40, 40);
 const background = new Background();
 
-function generatePipes() {
-  if (!(frames % 200 === 0)) return;
-  const height = Math.floor(Math.random() * canvas.height * 0.5 + 30);
-  const pipe1 = new Pipe(height, "top", 0);
-  const pipe2 = new Pipe(canvas.height - height - 140, null, height + 140);
-  pipes.push(pipe1);
-  pipes.push(pipe2);
-}
-
-function drawPipe() {
-  pipes.forEach(pipe => {
-    if (pipe.x + pipe.width < 0) {
-      score += 2;
-      pipes.splice(0, 2);
-    }
-    pipe.draw();
-    if (flappy.collision(pipe)) gameOver();
-  });
-}
+ 
 
 function update() {
   frames++;
@@ -136,7 +138,7 @@ function gameOver() {
 
 function reset() {
   flappy.y = 150;
-  audio.currentTime = 0;
+  audio.currentTime = 0; 
   pipes = [];
   flappy.userPull = 0;
   interval = undefined;
