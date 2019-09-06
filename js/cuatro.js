@@ -6,22 +6,34 @@ let basico = 1;
 let vx = 2; // Velocidad  x
 let vy = -5 ; // Velocidad  y
 let audio = new Audio();
-enemigos =[];
+audiocomer = new Audio();
+audioengame = new Audio();
+audiogameover = new Audio();
+audioganaste = new Audio();
+
+let enemigos =[];
 let puntaje = 0;
 let vidas = 3;
 let go = 200
 let interval;
 audio.src =
- "https://ia600807.us.archive.org/22/items/DjBabySharkDanceRemix/BabyShark-DjNelzkie.mp3"; 
-let img1 = './images/c++.png'; var img2 = './images/php.png'; var img3 = './images/enemigo 5.png' ;
+ "https://ia600807.us.archive.org/22/items/DjBabySharkDanceRemix/BabyShark-DjNelzkie.mp3" ; 
+audiocomer.src= "./assets/comer.mp3";
+audioengame.src= "./assets/endgamebross.mp3";
+audiogameover.src= "./assets/gameover.mp3";
+audioganaste.src="./assets/ganaste.mp3"; 
+
+let img1 = './images/delphi1.png'; 
+var img2 = './images/python22.png'; 
+var img3 = './images/c++2.png' ;
 imagenes = [img1,img2,img3]; 
 
   
 
 class Shark { //se crea clase y función. 
-  constructor(width, height) {
-    this.x = 0;
-    this.y = 0;
+  constructor(x,y , width, height) {
+    this.x = x;
+    this.y = y;
     this.width = width; 
     this.height = height; 
     
@@ -31,56 +43,66 @@ class Shark { //se crea clase y función.
     this.image2.src = "./images/code2.png"; 
     this.image = this.image1;
   }  
-  collision(item) { //colision
-    return (
-      // regresa
-      this.x < item.x + item.width && // Coordenada X menor a  itemX + item ancho canvas
-      this.x + this.width > item.x && // X + ancho mayor item X
-      this.y < item.y + item.height && // y menor a item alto
-      this.y + this.height > item.y // Y Alto mayor a item Y
+  // collision(item) { //colision
+  //   console.log("hola ")
+  //   return (
+  //     // regresa
+  //     this.x < item.x + item.width && // Coordenada X menor a  itemX + item ancho canvas
+  //     this.x + this.width > item.x && // X + ancho mayor item X
+  //     this.y < item.y + item.height && // y menor a item alto
+  //     this.y + this.height > item.y // Y Alto mayor a item Y
+  //   );
+  // } 
+  collision(item) {
+    return ( // colisiones 
+        this.x < item.x + item.width &&
+        this.x + this.width > item.x &&
+        this.y < item.y + item.height &&
+        this.y + this.height > item.y
     );
-  }
- 
+}
+
+
+
+
    draw() {    
     if (frames % 15 !== 0) {
             this.image = this.image === this.image1 ? this.image2 : this.image1; // si imagen 1, entonces pasa a imagen 2 y viceversa
-    }
-    document.onkeydown = function(e) {
-        if (e.keyCode === 82) {
-            start();
-          }
-        if (e.keyCode === 40) {        
-            if (shark.y > canvas.height - 50){
-                shark.y = canvas.height - 50
-            }
-            shark.y += 5;        
-        }       
-        if (e.keyCode == 38) {
-            if (shark.y < 5){
-                shark.y =5
-            }
-            shark.y -= 5;               
-         }
-        if (e.keyCode == 37) {
-            if (shark.x < 5){
-                shark.x=5
-            }
-            shark.x -= 5;        
-          }
-        if (e.keyCode == 39) {
-            if (shark.x > canvas.width - 50) {
-                shark.x = canvas.width - 50 
-            }
-            shark.x += 5;
-          }   
-      }; 
-
-
+            //console.log("estoy cambiando imagen");
+        }
+    
     ctx.drawImage(this.image,this.x, this.y, this.width, this.height); // Pinta a Shark
     }     
 }
- 
-  
+document.onkeydown = function(e) { // Esta bien aquí?
+    if (e.keyCode === 32 || e.keyCode ===65) {
+        start();
+      }
+    if (e.keyCode === 40) {        
+        if (shark.y > canvas.height - 50){
+            shark.y = canvas.height - 50
+        }
+        shark.y += 5;        
+    }       
+    if (e.keyCode == 38) {
+        if (shark.y < 5){
+            shark.y =5
+        }
+        shark.y -= 5;               
+     }
+    if (e.keyCode == 37) {
+        if (shark.x < 5){
+            shark.x=5
+        }
+        shark.x -= 5;        
+      }
+    if (e.keyCode == 39) {
+        if (shark.x > canvas.width - 50) {
+            shark.x = canvas.width - 50 
+        }
+        shark.x += 5;
+      }   
+  }; 
 class Background { //Clase fondo
     constructor() { // se abre constructor
       this.x = 0; // posición de X en 0 
@@ -106,16 +128,18 @@ class Background { //Clase fondo
     } 
   } 
 
-const shark = new Shark(60, 60); //Se crea instancia del constructor de Shark
+const shark = new Shark(0,0, 60,60 ); //Se crea instancia del constructor de Shark
 const background = new Background(); // Instancia del fondo
 
 class Enemigo {// Enemigos
-    constructor(x, y, img) { 
-      this.x = x 
-      this.y = y
+    constructor(x,y,width,height,imagenes) { 
+      this.x = x; 
+      this.y = y;
+      this.width = width;
+      this.height = height ;
       
       this.image = new Image()
-      this.image.src = img      
+      this.image.src = imagenes      
     }
     draw() {
         if (this.y > canvas.height - 90){//abajo            
@@ -133,82 +157,50 @@ class Enemigo {// Enemigos
       this.x += vx;
       this.y +=vy;
       //this.y++
-      ctx.drawImage(this.image, this.x, this.y, 50, 80)
+      ctx.drawImage(this.image, this.x, this.y,this.width, this.height )
     }    
   }
   
-
-  //    function generaEnemigo() {
-    //        if (!(frames % 200 === 0)) return;
-    //        const height = Math.floor(Math.random() * canvas.height * 0.5 + 30);
-    //        const pipe1 = new Pipe(height, "top", 0);
-    //        const pipe2 = new Pipe(canvas.height - height - 140, null, height + 140);
-    //        pipes.push(pipe1);
-    //        pipes.push(pipe2);
-    //      }
-    
-    
-    //const enemigo1 = new Enemigo(1230,Math.floor(Math.random() * 540), imagenes.img3);
-    
-    
-    const enemigo1 = new Enemigo(1230,Math.floor(Math.random() * 540), imagenes[Math.floor(Math.random() *imagenes.length)]);
-  //const enemigo2 = new Enemigo(1230,Math.floor(Math.random() * 540), imagenes[Math.floor(Math.random() *imagenes.length)]);
-
-       // if (flappy.collision(pipe)) gameOver();
-    //}
-    //   const enemy = new Enemy (imgEnemy[imgPosition],pos,width,height,damage)
-//   enemies.push(enemy);
+///////   FUNCIONES PARA GENERAR Y DIBUJAR ENEMIGOS   A Y U D A  
+     function generaEnemigo() {
+         if ((frames % 11 == 0 & frames % 170 == 0)) return;
+             const enemigo1 = new Enemigo(1230,Math.floor(Math.random() * 540),60,60, imagenes[Math.floor(Math.random() *imagenes.length)]);
+             enemigos.push(enemigo1);
+             
+         }
         
-    // class Pipe {
-    //     constructor(height, pos, y) {
-    //       this.x = canvas.width;
-    //       this.y = y;
-    //       this.height = height;
-    //       this.width = 60;
-    //       this.image = new Image();
-    //       this.image.src =
-    //         pos === "top" ? "images/obstacle_top.png" : "images/obstacle_bottom.png";
-    //     }
-      
-    //     draw() {
-    //       this.x--;
-    //       ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
-    //     }
-    //   }
-      
-    //      function generatePipes() {
-    //        if (!(frames % 200 === 0)) return;
-    //        const height = Math.floor(Math.random() * canvas.height * 0.5 + 30);
-    //        const pipe1 = new Pipe(height, "top", 0);
-    //        const pipe2 = new Pipe(canvas.height - height - 140, null, height + 140);
-    //        pipes.push(pipe1);
-    //        pipes.push(pipe2);
-    //      }
-        
-    //      function drawPipe() {
-    //        pipes.forEach(pipe => {
-    //          if (pipe.x + pipe.width < 0) {
-    //            score += 2;
-    //            pipes.splice(0, 2);
-    //          }
-    //          pipe.draw();
-    //          if (flappy.collision(pipe)) gameOver();
-    //        });
-    //      }
-      
-     
-    //   function update() {
-    //     frames++;
-    //     ctx.font = "35px Arial";
-    //     background.draw();
-    //     generatePipes();
-    //     drawPipe();
-    //     flappy.draw();
-    //     ctx.fillText(score, 620, 50);
-    //   }
+     function drawEnemigos (){
+         enemigos.forEach((enemigo) => {
+              if(enemigo.x + enemigo.width < 0){
+
+              }
+          enemigo.draw(); 
+            if(shark.collision (enemigo)){
+              enemigo.splice(0,2);
+              puntaje ++;
+              console.log("estoy eliminando");
+          }  
+              
+         });
+     }
+
+   
+   // const enemigo2 = new Enemigo(1230,Math.floor(Math.random() * 540), imagenes[Math.floor(Math.random() *imagenes.length)]);    
+  //const enemigo1 = new Enemigo(1230,Math.floor(Math.random() * 540), imagenes[Math.floor(Math.random() *imagenes.length)]);
+
+  // Movimiento a todo
+
+document.addEventListener("mousemove", mouseMoveHandler, false); //// A Y U D A  
+
+function mouseMoveHandler(e) {
+    var relativeX = e.clientX - canvas.offsetLeft;
+    if(relativeX > 0 && relativeX < canvas.width) {
+        shark.image = relativeX - shark.width/2;
+    }
+}
+///F I N   D E   L A   A Y U D A 
 
 
-// Movimiento a todo
 function cuadro () { // barra de estado, score y vidas
 ctx.beginPath();
 ctx.rect(0, 550, 1300, 80);
@@ -229,7 +221,7 @@ function vida() {
 }
 
 function codeGo() {
-    ctx.font = "50px Arial";
+    ctx.font = "50px Arial" ;
     ctx.fillStyle = "#080100";
     ctx.fillText("Héroe: "+go + "¯(▀̿Ĺ̯▀̿ ̿)", 830, 600);
 }
@@ -238,14 +230,21 @@ function update () {
    frames ++;    
    background.draw();
    shark.draw ();    
-   enemigo1.draw ();   
-  // enemigo2.draw();
+  //  enemigo1.draw ();   
+   //enemigo2.draw();
   cuadro ()
   vida ();
   score ();
   codeGo ();
+   generaEnemigo();
+  
+   drawEnemigos ();
 }
 
+ function pause () {
+
+    document.location.reload();
+ }
  function start() {
      if (interval) return;
      document.querySelector("button").disabled = true;

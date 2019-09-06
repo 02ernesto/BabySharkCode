@@ -35,7 +35,7 @@ class Background { // Clase backgound
     }
 }
 
-class Character {
+class Character { //mario
     constructor(x, y, width, height, imgs) { // clase mario 
         this.x = x; // posicion X
         this.y = y; // posicion Y
