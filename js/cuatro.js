@@ -27,10 +27,10 @@ audiogameover.src= "./assets/gameover.mp3";
 audioganaste.src="./assets/ganaste.mp3"; 
 audiocuack.src="./assets/cuack.mp3"; 
 //Comida
-let img1 = './images/delphi1.png'; 
-let img2 = './images/perl1.png'; 
-let img3 = './images/php1.png' ;
-let img4 = './images/yellow.png' ;
+let img1 = 'images/delphi1.png'; 
+let img2 = 'images/perl1.png'; 
+let img3 = 'images/php1.png' ;
+let img4 = 'images/yellow.png' ;
 imagenes = [img1,img2,img3,img4]; 
 
  //Asesinos
