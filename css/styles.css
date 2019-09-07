@@ -22,20 +22,18 @@ h1 {
     align-items: center;
 }
 #mycanvas {
-    background: #eee;
+  
+  background: rgb(195, 247, 240);
+  /* background-image: url("../images/fondocanvas.png");
+  background-repeat: no-repeat;   */
     border: white 8px inset;
     padding: 0; margin: 0; 
     display: block;
     margin: 0 auto;   
     border-color: chartreuse;  
 }
-
-
-
 body{
-  
-  
-  background-color: blue;
+     background-color: blue;
     position: absolute;
     top: 0;
     bottom: 0;
