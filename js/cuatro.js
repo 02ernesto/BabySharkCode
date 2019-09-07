@@ -360,4 +360,4 @@ function update() {
      interval = setInterval(update, 1000/60);
    }
   document.querySelector("button").onclick = start;
-//setInterval(update,1000/60);
+//setInterval(update,1000/60); Ya.
